@@ -56,10 +56,12 @@ struct DecoderOptions {
 struct DecodeResult {
   float score;
   std::vector<int> words;
+  std::vector<int> wordEnds;
   std::vector<int> tokens;
+  std::vector<int> tokenEnds;
 
   explicit DecodeResult(int length = 0)
-      : score(0), words(length, -1), tokens(length, -1) {}
+      : score(0), words(length, -1), wordEnds(length, -1), tokens(length, -1), tokenEnds(length, -1) {}
 };
 
 template <class DecoderState>
@@ -138,7 +140,9 @@ DecodeResult getHypothesis(const DecoderState* node, const int finalFrame) {
   int i = 0;
   while (node_) {
     res.words[finalFrame - i] = node_->getWord();
-    res.tokens[finalFrame - i] = node_->token;
+    res.wordEnds[finalFrame - i] = node_->getFrame();
+    res.tokens[finalFrame - i] = node_->getToken();
+    res.tokenEnds[finalFrame - i] = node_->getFrame();
     node_ = node_->parent;
     i++;
   }

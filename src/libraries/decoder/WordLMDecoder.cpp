@@ -93,6 +93,7 @@ void WordLMDecoder::decodeStep(const float* emissions, int T, int N) {
                 lex.get(),
                 &prevHyp,
                 score + opt_.lmWeight * (lex->maxScore - lexMaxScore),
+		nDecodedFrames_+t,
                 n,
                 -1,
                 false // prevBlank
@@ -109,6 +110,7 @@ void WordLMDecoder::decodeStep(const float* emissions, int T, int N) {
               &prevHyp,
               score + opt_.lmWeight * (lmScoreReturn.second - lexMaxScore) +
                   opt_.wordScore,
+	      nDecodedFrames_+t,
               n,
               label,
               false // prevBlank
@@ -124,6 +126,7 @@ void WordLMDecoder::decodeStep(const float* emissions, int T, int N) {
               &prevHyp,
               score + opt_.lmWeight * (lmScoreReturn.second - lexMaxScore) +
                   opt_.unkScore,
+	      nDecodedFrames_+t,
               n,
               unk_,
               false // prevBlank
@@ -148,6 +151,7 @@ void WordLMDecoder::decodeStep(const float* emissions, int T, int N) {
             prevLex,
             &prevHyp,
             score,
+            nDecodedFrames_+t,
             n,
             -1,
             false // prevBlank
@@ -163,6 +167,7 @@ void WordLMDecoder::decodeStep(const float* emissions, int T, int N) {
             prevLex,
             &prevHyp,
             score,
+            nDecodedFrames_+t,
             n,
             -1,
             true // prevBlank

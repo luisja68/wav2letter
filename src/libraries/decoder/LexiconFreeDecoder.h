@@ -21,6 +21,7 @@ struct LexiconFreeDecoderState {
   LMStatePtr lmState; // Language model state
   const LexiconFreeDecoderState* parent; // Parent hypothesis
   float score; // Score so far
+  int frame; // Current frame
   int token; // Label of token
   bool prevBlank; // If previous hypothesis is blank (for CTC only)
 
@@ -28,11 +29,13 @@ struct LexiconFreeDecoderState {
       const LMStatePtr& lmState,
       const LexiconFreeDecoderState* parent,
       const float score,
+      const int frame,
       const int token,
       const bool prevBlank = false)
       : lmState(lmState),
         parent(parent),
         score(score),
+        frame(frame),
         token(token),
         prevBlank(prevBlank) {}
 
@@ -40,11 +43,20 @@ struct LexiconFreeDecoderState {
       : lmState(nullptr),
         parent(nullptr),
         score(0),
+        frame(-1),
         token(-1),
         prevBlank(false) {}
 
   int getWord() const {
     return -1;
+  }
+
+  int getToken() const {
+    return token;
+  }
+
+  int getFrame() const {
+    return frame;
   }
 
   bool isComplete() const {
@@ -130,6 +142,7 @@ class LexiconFreeDecoder : public Decoder {
       const LMStatePtr& lmState,
       const LexiconFreeDecoderState* parent,
       const float score,
+      const int frame,
       const int token,
       const bool prevBlank);
 

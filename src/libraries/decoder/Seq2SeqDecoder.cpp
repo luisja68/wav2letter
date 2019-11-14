@@ -58,11 +58,12 @@ void Seq2SeqDecoder::candidatesAdd(
     const LMStatePtr& lmState,
     const Seq2SeqDecoderState* parent,
     const float score,
+    const int frame,
     const int token,
     const AMStatePtr& amState) {
   if (isValidCandidate(candidatesBestScore_, score, opt_.beamThreshold)) {
     candidates_.emplace_back(
-        Seq2SeqDecoderState(lmState, parent, score, token, amState));
+        Seq2SeqDecoderState(lmState, parent, score, frame, token, amState));
   }
 }
 
@@ -95,7 +96,7 @@ void Seq2SeqDecoder::decodeStep(const float* emissions, int T, int N) {
 
   // Start from here.
   hyp_[0].clear();
-  hyp_[0].emplace_back(lm_->start(0), nullptr, 0.0, -1, nullptr);
+  hyp_[0].emplace_back(lm_->start(0), nullptr, 0.0, -1, -1, nullptr);
 
   auto compare = [](const Seq2SeqDecoderState& n1,
                     const Seq2SeqDecoderState& n2) {
@@ -169,6 +170,7 @@ void Seq2SeqDecoder::decodeStep(const float* emissions, int T, int N) {
               lmScoreReturn.first,
               &prevHyp,
               score + opt_.lmWeight * lmScoreReturn.second,
+              t,
               n,
               nullptr);
         }
@@ -181,6 +183,7 @@ void Seq2SeqDecoder::decodeStep(const float* emissions, int T, int N) {
               lmScoreReturn.first,
               &prevHyp,
               score + opt_.wordScore + opt_.lmWeight * lmScoreReturn.second,
+              t,
               n,
               outState);
         }

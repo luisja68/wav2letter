@@ -450,10 +450,36 @@ int main(int argc, char** argv) {
         // DecodeResult
         auto results = decoder->decode(emission.data(), T, N);
 
-        // Cleanup predictions
+        // Inspecting raw predictions
         auto& rawWordPrediction = results[0].words;
+        auto& rawWordEnds = results[0].wordEnds;
         auto& rawTokenPrediction = results[0].tokens;
+        auto& rawTokenEnds = results[0].tokenEnds;
+	
+        std::stringstream bufferLJ;
+	bufferLJ << "Word indexes:";
+	for (int wIdx: rawWordPrediction){
+	  bufferLJ << " " << wIdx;
+	}
+	bufferLJ << std::endl;
+	bufferLJ << "Word ends:";
+	for (int wEnd: rawWordEnds){
+	  bufferLJ << " " << wEnd;
+	}
+	bufferLJ << std::endl;
+	bufferLJ << "Token indexes:";
+	for (int tIdx: rawTokenPrediction){
+	  bufferLJ << " " << tIdx;
+	}
+	bufferLJ << std::endl;
+	bufferLJ << "Token ends:";
+	for (int tEnd: rawTokenEnds){
+	  bufferLJ << " " << tEnd;
+	}
+	bufferLJ << std::endl;
+	std::cout << bufferLJ.str();
 
+        // Cleanup predictions
         auto letterTarget = tknTarget2Ltr(tokenTarget, tokenDict);
         auto letterPrediction =
             tknPrediction2Ltr(rawTokenPrediction, tokenDict);

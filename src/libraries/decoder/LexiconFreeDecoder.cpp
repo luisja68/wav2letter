@@ -57,11 +57,12 @@ void LexiconFreeDecoder::candidatesAdd(
     const LMStatePtr& lmState,
     const LexiconFreeDecoderState* parent,
     const float score,
+    const int frame,
     const int token,
     const bool prevBlank) {
   if (isValidCandidate(candidatesBestScore_, score, opt_.beamThreshold)) {
     candidates_.emplace_back(
-        LexiconFreeDecoderState(lmState, parent, score, token, prevBlank));
+        LexiconFreeDecoderState(lmState, parent, score, frame, token, prevBlank));
   }
 }
 
@@ -89,7 +90,7 @@ void LexiconFreeDecoder::decodeBegin() {
   hyp_.emplace(0, std::vector<LexiconFreeDecoderState>());
 
   /* note: the lm reset itself with :start() */
-  hyp_[0].emplace_back(lm_->start(0), nullptr, 0.0, sil_);
+  hyp_[0].emplace_back(lm_->start(0), nullptr, 0.0, -1, sil_);
   nDecodedFrames_ = 0;
   nPrunedFrames_ = 0;
 }
@@ -134,6 +135,7 @@ void LexiconFreeDecoder::decodeStep(const float* emissions, int T, int N) {
               lmScoreReturn.first,
               &prevHyp,
               score,
+              nDecodedFrames_+t,
               n,
               false // prevBlank
           );
@@ -142,6 +144,7 @@ void LexiconFreeDecoder::decodeStep(const float* emissions, int T, int N) {
               prevLmState,
               &prevHyp,
               score,
+              nDecodedFrames_+t,
               n,
               true // prevBlank
           );
@@ -150,6 +153,7 @@ void LexiconFreeDecoder::decodeStep(const float* emissions, int T, int N) {
               prevLmState,
               &prevHyp,
               score,
+              nDecodedFrames_+t,
               n,
               false // prevBlank
           );
@@ -174,6 +178,7 @@ void LexiconFreeDecoder::decodeEnd() {
         lmScoreReturn.first,
         &prevHyp,
         prevHyp.score + opt_.lmWeight * lmScoreReturn.second,
+	nDecodedFrames_,
         sil_,
         false // prevBlank
     );

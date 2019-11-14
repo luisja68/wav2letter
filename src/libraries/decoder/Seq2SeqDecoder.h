@@ -32,6 +32,7 @@ struct Seq2SeqDecoderState {
   LMStatePtr lmState; // Language model state
   const Seq2SeqDecoderState* parent; // Parent hypothesis
   float score; // Score so far
+  int frame; // Frame of token
   int token; // Label of token
   AMStatePtr amState; // Acoustic model state
 
@@ -39,24 +40,36 @@ struct Seq2SeqDecoderState {
       const LMStatePtr& lmState,
       const Seq2SeqDecoderState* parent,
       const float score,
+      const int frame,
       const int token,
       const AMStatePtr& amState = nullptr)
       : lmState(lmState),
         parent(parent),
         score(score),
+        frame(frame),
         token(token),
         amState(amState) {}
 
   Seq2SeqDecoderState()
       : lmState(nullptr),
         parent(nullptr),
-        score(0),
+        score(0.0),
+        frame(-1),
         token(-1),
         amState(nullptr) {}
 
   int getWord() const {
     return -1;
   }
+
+  int getFrame() const {
+    return frame;
+  }
+
+  int getToken() const {
+    return token;
+  }
+
 };
 
 /**
@@ -123,6 +136,7 @@ class Seq2SeqDecoder : public Decoder {
       const LMStatePtr& lmState,
       const Seq2SeqDecoderState* parent,
       const float score,
+      const int frame,
       const int token,
       const AMStatePtr& amState);
 

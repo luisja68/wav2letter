@@ -30,12 +30,13 @@ void LexiconDecoder::candidatesAdd(
     const TrieNode* lex,
     const LexiconDecoderState* parent,
     const float score,
+    const int frame,
     const int token,
     const int word,
     const bool prevBlank) {
   if (isValidCandidate(candidatesBestScore_, score, opt_.beamThreshold)) {
     candidates_.emplace_back(
-        lmState, lex, parent, score, token, word, prevBlank);
+        lmState, lex, parent, score, frame, token, word, prevBlank);
   }
 }
 
@@ -64,7 +65,7 @@ void LexiconDecoder::decodeBegin() {
 
   /* note: the lm reset itself with :start() */
   hyp_[0].emplace_back(
-      lm_->start(0), lexicon_->getRoot(), nullptr, 0.0, sil_, -1);
+      lm_->start(0), lexicon_->getRoot(), nullptr, 0.0, -1, sil_, -1);
   nDecodedFrames_ = 0;
   nPrunedFrames_ = 0;
 }
@@ -82,6 +83,7 @@ void LexiconDecoder::decodeEnd() {
         prevLex,
         &prevHyp,
         prevHyp.score + opt_.lmWeight * lmStateScorePair.second,
+	nDecodedFrames_,
         sil_,
         -1,
         false // prevBlank

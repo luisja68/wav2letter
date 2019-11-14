@@ -23,6 +23,7 @@ struct LexiconDecoderState {
   const TrieNode* lex; // Trie node in the lexicon
   const LexiconDecoderState* parent; // Parent hypothesis
   float score; // Score so far
+  int frame; // End frame of token/word
   int token; // Label of token
   int word; // Label of word (-1 if incomplete)
   bool prevBlank; // If previous hypothesis is blank (for CTC only)
@@ -32,6 +33,7 @@ struct LexiconDecoderState {
       const TrieNode* lex,
       const LexiconDecoderState* parent,
       const float score,
+      const int frame,
       const int token,
       const int word,
       const bool prevBlank = false)
@@ -39,6 +41,7 @@ struct LexiconDecoderState {
         lex(lex),
         parent(parent),
         score(score),
+        frame(frame),
         token(token),
         word(word),
         prevBlank(prevBlank) {}
@@ -47,13 +50,22 @@ struct LexiconDecoderState {
       : lmState(nullptr),
         lex(nullptr),
         parent(nullptr),
-        score(0),
+        score(0.0),
+        frame(-1),
         token(-1),
         word(-1),
         prevBlank(false) {}
 
   int getWord() const {
     return word;
+  }
+
+  int getFrame() const {
+    return frame;
+  }
+ 
+  int getToken() const {
+    return token;
   }
 
   bool isComplete() const {
@@ -147,6 +159,7 @@ class LexiconDecoder : public Decoder {
       const TrieNode* lex,
       const LexiconDecoderState* parent,
       const float score,
+      const int frame,
       const int token,
       const int label,
       const bool prevBlank);

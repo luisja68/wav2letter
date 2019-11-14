@@ -90,6 +90,7 @@ void TokenLMDecoder::decodeStep(const float* emissions, int T, int N) {
                 lex,
                 &prevHyp,
                 score,
+                nDecodedFrames_ + t,
                 n,
                 -1,
                 false // prevBlank
@@ -104,6 +105,7 @@ void TokenLMDecoder::decodeStep(const float* emissions, int T, int N) {
               lexicon_->getRoot(),
               &prevHyp,
               score + opt_.wordScore,
+              nDecodedFrames_ + t,
               n,
               label,
               false // prevBlank
@@ -117,6 +119,7 @@ void TokenLMDecoder::decodeStep(const float* emissions, int T, int N) {
               lexicon_->getRoot(),
               &prevHyp,
               score + opt_.unkScore,
+              nDecodedFrames_ + t,
               n,
               unk_,
               false // prevBlank
@@ -141,6 +144,7 @@ void TokenLMDecoder::decodeStep(const float* emissions, int T, int N) {
             prevLex,
             &prevHyp,
             score,
+            nDecodedFrames_ + t,
             n,
             -1,
             false // prevBlank
@@ -156,6 +160,7 @@ void TokenLMDecoder::decodeStep(const float* emissions, int T, int N) {
             prevLex,
             &prevHyp,
             score,
+            nDecodedFrames_ + t,
             n,
             -1,
             true // prevBlank
