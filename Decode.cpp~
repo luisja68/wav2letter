@@ -34,9 +34,10 @@
 #include "module/module.h"
 #include "runtime/runtime.h"
 
-std::string wrdIdx2Str( const std::vector<int>& input, const Dictionary& wordDict);
 
 using namespace w2l;
+
+std::string wrdIdx2Str( const std::vector<int>& , const Dictionary& );
 
 int main(int argc, char** argv) {
   google::InitGoogleLogging(argv[0]);
