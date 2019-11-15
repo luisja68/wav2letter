@@ -206,7 +206,7 @@ std::string vector2str(std::vector<int> v){
   for (int x: v){
     bufferLJ << " " << x;
   }
-  return bufferLJ.str()
+  return bufferLJ.str();
 }
 
 std::vector<std::string> tknPrediction2Ltr(
