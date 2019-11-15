@@ -201,6 +201,14 @@ std::vector<std::string> tknTarget2Ltr(
   return tknIdx2Ltr(tokens, tokenDict);
 }
 
+std::string vector2str(std::vector<int> v){
+  std::stringstream bufferLJ;
+  for (int x: v){
+    bufferLJ << " " << x;
+  }
+  return bufferLJ.str()
+}
+
 std::vector<std::string> tknPrediction2Ltr(
     std::vector<int> tokens,
     const Dictionary& tokenDict) {
@@ -219,11 +227,11 @@ std::vector<std::string> tknPrediction2Ltr(
     tokens.erase(
         std::remove(tokens.begin(), tokens.end(), blankIdx), tokens.end());
   }
-  bufferLJ << "Longitud 3: " << tokens.size() << std::endl;
+  bufferLJ << "Longitud 3: " << tokens.size() << vector2str(tokens) << std::endl;
   tokens = validateIdx(tokens, -1);
-  bufferLJ << "Longitud 4: " << tokens.size() << std::endl;
+  bufferLJ << "Longitud 4: " << tokens.size() << vector2str(tokens) << std::endl;
   remapLabels(tokens, tokenDict);
-  bufferLJ << "Longitud 5: " << tokens.size() << std::endl;
+  bufferLJ << "Longitud 5: " << tokens.size() << vector2str(tokens) << std::endl;
   std::cout << bufferLJ.str();
   return tknIdx2Ltr(tokens, tokenDict);
 }
