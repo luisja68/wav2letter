@@ -236,14 +236,4 @@ std::vector<std::string> tknPrediction2Ltr(
   return tknIdx2Ltr(tokens, tokenDict);
 }
 
-std::string wrdIdx2Str(
-    const std::vector<int>& input,
-    const Dictionary& wordDict) {
-  std::stringstream ss; 
-  for (auto wrdIdx : input) {
-    ss << wordDict.getEntry(wrdIdx) << " ";
-  }
-  return ss.str();
-}
-
 } // namespace w2l

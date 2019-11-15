@@ -626,7 +626,7 @@ std::string tknIdx2Str(
   for (int i=0; i<input.size(); i++) {
     if (input[i] != t)
       ss << tokenDict.getEntry(t) << " " << (i-1) << " ";
-      t = input[i]
+      t = input[i];
   }
   ss << tokenDict.getEntry(t) << " " << (input.size()-1) << " ";
   return ss.str();
