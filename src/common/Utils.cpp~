@@ -223,7 +223,7 @@ std::vector<std::string> tknPrediction2Ltr(
   bufferLJ << "Longitud 4: " << tokens.size() << std::endl;
   remapLabels(tokens, tokenDict);
   bufferLJ << "Longitud 5: " << tokens.size() << std::endl;
-  std::cout << bufferLJ.str();
+  std::cout << bufferLT.str();
   return tknIdx2Ltr(tokens, tokenDict);
 }
 
