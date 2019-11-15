@@ -220,7 +220,7 @@ std::vector<std::string> tknPrediction2Ltr(
   if (FLAGS_criterion == kCtcCriterion || FLAGS_criterion == kAsgCriterion) {
     uniq(tokens);
   }
-  bufferLJ << "Longitud 2: " << tokens.size() << std::endl;
+  bufferLJ << "Longitud 2: " << tokens.size() << vector2str(tokens) << std::endl;
   
   if (FLAGS_criterion == kCtcCriterion) {
     int blankIdx = tokenDict.getIndex(kBlankToken);
