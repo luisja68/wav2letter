@@ -610,7 +610,8 @@ std::string wrdIdx2Str(
     const Dictionary& wordDict) {
   std::stringstream ss; 
   for (auto wrdIdx : input) {
-    ss << wordDict.getEntry(wrdIdx) << " ";
+    if (wrdIdx != -1)
+      ss << wordDict.getEntry(wrdIdx) << " ";
   }
   return ss.str();
 }
