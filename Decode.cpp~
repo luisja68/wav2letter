@@ -456,7 +456,7 @@ int main(int argc, char** argv) {
         auto& rawTokenPrediction = results[0].tokens;
         auto& rawTokenEnds = results[0].tokenEnds;
 
-	std::cout << wrdIdx2Str(rawWordPrediction) << std::endl;
+	std::cout << wrdIdx2Str(rawWordPrediction,wordDict) << std::endl;
 	
         std::stringstream bufferLJ;
 	bufferLJ << "Word indexes:";
@@ -600,4 +600,14 @@ int main(int argc, char** argv) {
     logStream.close();
   }
   return 0;
+}
+
+std::string wrdIdx2Str(
+    const std::vector<int>& input,
+    const Dictionary& wordDict) {
+  std::stringstream ss; 
+  for (auto wrdIdx : input) {
+    ss << wordDict.getEntry(wrdIdx) << " ";
+  }
+  return ss.str();
 }

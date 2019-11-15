@@ -601,3 +601,13 @@ int main(int argc, char** argv) {
   }
   return 0;
 }
+
+std::string wrdIdx2Str(
+    const std::vector<int>& input,
+    const Dictionary& wordDict) {
+  std::stringstream ss; 
+  for (auto wrdIdx : input) {
+    ss << wordDict.getEntry(wrdIdx) << " ";
+  }
+  return ss.str();
+}

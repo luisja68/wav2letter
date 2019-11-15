@@ -61,6 +61,4 @@ std::vector<std::string> tknTarget2Ltr(std::vector<int>, const Dictionary&);
 
 std::vector<std::string> tknPrediction2Ltr(std::vector<int>, const Dictionary&);
 
-std::string wrdIdx2Str(const std::vector<int>& , const Dictionary& );
-
 } // namespace w2l
