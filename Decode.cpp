@@ -38,6 +38,7 @@
 using namespace w2l;
 
 std::string wrdIdx2Str( const std::vector<int>& , const Dictionary& );
+std::string tknIdx2Str( const std::vector<int>& , const Dictionary& );
 
 int main(int argc, char** argv) {
   google::InitGoogleLogging(argv[0]);
@@ -460,6 +461,7 @@ int main(int argc, char** argv) {
         auto& rawTokenEnds = results[0].tokenEnds;
 
 	std::cout << wrdIdx2Str(rawWordPrediction,wordDict) << std::endl;
+	std::cout << tknIdx2Str(rawTokenPrediction,tokenDict) << std::endl;
 	
         std::stringstream bufferLJ;
 	bufferLJ << "Word indexes:";
@@ -613,5 +615,19 @@ std::string wrdIdx2Str(
     if (input[i] != -1)
       ss << wordDict.getEntry(input[i]) << " " << i << " ";
   }
+  return ss.str();
+}
+
+std::string tknIdx2Str(
+    const std::vector<int>& input,
+    const Dictionary& tokenDict) {
+  std::stringstream ss;
+  int t=input[0]; 
+  for (int i=0; i<input.size(); i++) {
+    if (input[i] != t)
+      ss << tokenDict.getEntry(t) << " " << (i-1) << " ";
+      t = input[i]
+  }
+  ss << tokenDict.getEntry(t) << " " << (input.size()-1) << " ";
   return ss.str();
 }
