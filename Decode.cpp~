@@ -455,6 +455,8 @@ int main(int argc, char** argv) {
         auto& rawWordEnds = results[0].wordEnds;
         auto& rawTokenPrediction = results[0].tokens;
         auto& rawTokenEnds = results[0].tokenEnds;
+
+	std::cout << wrdIdx2Str(rawWordPrediction) << std::endl;
 	
         std::stringstream bufferLJ;
 	bufferLJ << "Word indexes:";
