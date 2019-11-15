@@ -203,21 +203,27 @@ std::vector<std::string> tknTarget2Ltr(
 std::vector<std::string> tknPrediction2Ltr(
     std::vector<int> tokens,
     const Dictionary& tokenDict) {
+  std::stringstream bufferLJ;  
   if (tokens.empty()) {
     return std::vector<std::string>{};
   }
-
+  bufferLJ << "Longitud 1: " << tokens.size() << std::endl;
   if (FLAGS_criterion == kCtcCriterion || FLAGS_criterion == kAsgCriterion) {
     uniq(tokens);
   }
+  bufferLJ << "Longitud 2: " << tokens.size() << std::endl;
+  
   if (FLAGS_criterion == kCtcCriterion) {
     int blankIdx = tokenDict.getIndex(kBlankToken);
     tokens.erase(
         std::remove(tokens.begin(), tokens.end(), blankIdx), tokens.end());
   }
+  bufferLJ << "Longitud 3: " << tokens.size() << std::endl;
   tokens = validateIdx(tokens, -1);
+  bufferLJ << "Longitud 4: " << tokens.size() << std::endl;
   remapLabels(tokens, tokenDict);
-
+  bufferLJ << "Longitud 5: " << tokens.size() << std::endl;
+  std::cout << bufferLT.str();
   return tknIdx2Ltr(tokens, tokenDict);
 }
 
